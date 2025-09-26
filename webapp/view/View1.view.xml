@@ -1,0 +1,37 @@
+<mvc:View controllerName="gateentry.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:layout="sap.ui.layout.form"
+    xmlns:core="sap.ui.core">
+    <Page id="page" title="{i18n>title}">
+ <content>
+        <VBox class="sapUiSmallMargin">
+            <Label text="Gate Entry Number"/>
+            <Input value="{/GateEntryNo}" submit="onSearchGateEntry" width="30%" id="gateentrynumber"/>
+            
+            <Label text="Location / Plant" required="true"/>
+            <Input value="{/Location}" width="30%" id="plant"/>
+
+            <Label text="Company Code"/>
+            <Input value="{/CompanyCode}" width="30%" id="companycode"/>
+             
+            <Label text="Security Officer ID" required="true"/>
+            <Input value="{/OfficerID}" width="30%" id="securityoff"/>
+            
+            <Label text="Gate Number"/>
+            <Input value="{/GateNumber}" width="30%" id="gatenumber"/>
+            
+            <Label text="Movement Type" required="true"/>
+            <RadioButtonGroup  id="movementtype" >
+                <buttons>
+                    <RadioButton text="Inward"/>
+                    <RadioButton text="Internal Movement"/>
+                    <RadioButton text="Outward"/>
+                </buttons>
+            </RadioButtonGroup>
+            
+            <Button text="Next" press="onNext"/>
+        </VBox>
+    </content>
+ </Page>
+</mvc:View>

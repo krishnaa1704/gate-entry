@@ -1,0 +1,528 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc"
+          xmlns="sap.m"
+          xmlns:core="sap.ui.core"
+        
+         xmlns:layout="sap.ui.layout.form"
+          controllerName="gateentry.controller.View2">
+
+<Page title="Gate Entry - Main">
+    <content>
+  
+          <IconTabBar id="idIconTabBar" expandable="false">
+
+                <!-- Vendor Details -->
+                <items>
+                    <IconTabFilter text="Vendor Details" id="vendorTab" key="Vendor" icon="sap-icon://supplier">
+                        <VBox class="sapUiSmallMargin">
+                            <Label text="Supplier Number" required="true"/>
+                            <HBox>
+                            <Input value="{/SupplierNo}" id="suppnum"/>
+                            <Button text="Check" id="suppliercheck" press="suppliercheck"></Button>
+                            </HBox>
+
+                            <Label text="Supplier Name" required="true"></Label>
+                            <Input value="{/SupplierName}" id="suppname"></Input>
+
+                            <Label text="Delivery Note / Challan No." required="true"/>
+                            <Input value="{/DeliveryNote}" id="dnote" />
+
+                            <Label text="Invoice No." required="true"/>
+                            <Input value="{/InvoiceNo}" id="invoiceno"/>
+
+                            <Label text="Invoice Date" required="true" />
+                            <DatePicker value="{/InvoiceDate}" id="invoicedate" />
+                        </VBox>
+                    </IconTabFilter>
+
+                    <!-- Transporter Details -->
+                    <IconTabFilter text="Transporter Details" id="transporterTab" key="Transporter" icon="sap-icon://shipping-status">
+                    <VBox class="sapUiSmallMargin">
+                        
+                        <!-- Vehicle Type with Dropdown -->
+                        <Label text="Vehicle Type" />
+                        <ComboBox id="vehicleTypeCombo"
+                                selectedKey="{/VehicleType}"
+                                selectionChange=".onVehicleTypeChange"
+                                width="50%">
+                            <core:Item key="Truck" text="Truck"/>
+                            <core:Item key="Lorry" text="Lorry"/>
+                            <core:Item key="Mini truck" text="Mini truck"/>
+                            <core:Item key="Tempo" text="Tempo"/>
+                            <core:Item key="Container Truck" text="Container Truck"/>
+                            <core:Item key="Tanker" text="Tanker"/>
+                            <core:Item key="Refrigerator truck" text="Refrigerator truck"/>
+                            <core:Item key="Courier Van" text="Courier Van"/>
+                            <core:Item key="Tractor with trolley" text="Tractor with trolley"/>
+                            <core:Item key="Crane Carrier" text="Crane Carrier"/>
+                            <core:Item key="Forklift" text="Forklift"/>
+                            <core:Item key="Company Supply van" text="Company Supply van"/>
+                            <core:Item key="Others" text="Others"/>
+                        </ComboBox>
+
+                        <!-- Hidden Input for 'Others' -->
+                        <Input id="otherVehicleInput" placeholder="Enter Vehicle Type" visible="false" width="100%" />
+
+                        <Label text="Vehicle Number" required="true" />
+                        <HBox>
+                        <Input value="{/VehicleNo}" id="vehiclenumber" />
+                        <Button text="check" press="vehiclenumber"></Button>
+                        </HBox>
+
+                        <Label text="Transporter Name" required="true" />
+                        <Input value="{/TransporterName}" id="transporter"/>
+
+                        <Label text="GST Registration No." />
+                        <Input value="{/GSTNo}" id="gst"/>
+
+                        <Label text="Driver Name" required="true"/>
+                        <Input value="{/DriverName}" id="driver" />
+
+                        <Label text="Driver License" required="true"/>
+                        <Input value="{/DriverLicense}" id="license"/>
+
+                        <Label text="LR No." />
+                        <Input value="{/LRNo}" id="lrno" />
+
+                        <Label text="LR Date" />
+                        <DatePicker value="{/LRDate}" id="lrdate" />
+
+                        <Label text="Contract No." />
+                        <Input value="{/ContractNo}" id="contract" />
+
+                        <Label text="No. of Persons" />
+                        <Input value="{/NoOfPersons}" type="Number" id="persons" />
+
+                    </VBox>
+                </IconTabFilter>
+
+
+                    <!-- Weighbridge -->
+                    <IconTabFilter text="Weighbridge" key="Weighbridge" id="weighbridgeTab" icon="sap-icon://measure">
+                        <VBox class="sapUiSmallMargin">
+                            <Label text="Gross Weight"/>
+                            <Input value="{/GrossWeight}" type="Number" liveChange="onWeightchange" id="grossweight"/>
+
+                            <Label text="Weighbridge In-Time" />
+                            <TimePicker value="{/InTime}" id="weighintime" />
+                             <RadioButtonGroup id="weighbridgeintime" select="onweighbridgein">
+                                    <buttons>
+                                        <RadioButton text="Capture Weighbridge-in Time" selected="false"/>
+                                    </buttons>
+                            </RadioButtonGroup>
+
+                            <Label text="Tare Weight"/>
+                            <Input value="{/TareWeight}" type="Number" liveChange="onWeightchange" id="tareweight" />
+
+                            <Label text="Weighbridge Out-Time" />
+                            <TimePicker value="{/OutTime}" id="weighouttime" />
+                            <RadioButtonGroup id="weighbridgeouttime" select="onweighbridgeout">
+                                    <buttons>
+                                        <RadioButton text="Capture Weighbridge-out Time" selected="false"/>
+                                    </buttons>
+                            </RadioButtonGroup>
+
+                            <Label text="Net Weight" />
+                            <Input value="{/NetWeight}" type="Number" editable="false" id="netweight" />
+
+                            <Label text="Weighbridge Location" />
+                            <Input value="{/WeighLocation}" id="weighbridgelocation" />
+                        </VBox>
+                    </IconTabFilter>
+                    
+                    <!--Dock Details-->
+                    <IconTabFilter text="Dock Details" key="dock" id="dockTab" icon="sap-icon://inspection">
+                    <VBox class="sapUiSmallMargin">
+                       <Label text="Dock Location" required="true"/>
+                       <Input id="docklocation"/>
+                       <Label text="Assigned Time Slot"/>
+                       <Input id="assignedtime"/>
+                       <VBox id="inward" visible="false">
+                       <Label text="Dock-in Time"/>
+                       <TimePicker id="dockintime" />
+                       <RadioButtonGroup id="docktime" select="ondockin">
+                                    <buttons>
+                                        <RadioButton text="Capture dock-in Time" selected="false"/>
+                                    </buttons>
+                        </RadioButtonGroup>
+                       <Label text="Dock-out Time"/>
+                       <TimePicker id="dockouttime"/>
+                        <RadioButtonGroup id="docktime1" select="ondockout">
+                                    <buttons>
+                                        <RadioButton text="Capture dock-out Time" selected="false"/>
+                                    </buttons>
+                        </RadioButtonGroup>
+                       </VBox>
+                    </VBox>
+
+                    <!--Unloading Details-->
+                    </IconTabFilter>
+                    <IconTabFilter text="Unloading Details" key="dock" id="unloadingTab" icon="sap-icon://inventory">
+                    <VBox class="sapUiSmallMargin">
+                       <Label text="Unloading Start Time"/>
+                       <TimePicker id="startunload" change="onChange" />
+                        <RadioButtonGroup id="unloadstart" select="onunloadstart">
+                                    <buttons>
+                                        <RadioButton text="Start Unloading" selected="false"/>
+                                    </buttons>
+                        </RadioButtonGroup>
+                       
+
+                       <Label text="Unloading End Time"/>
+                       <TimePicker id="endunload" change="onChange"/>
+                       <RadioButtonGroup id="unloadend" select="onunloadend">
+                                    <buttons>
+                                        <RadioButton text="End Unloading" selected="false"/>
+                                    </buttons>
+                        </RadioButtonGroup>
+
+                       <Label text="Unloading Duration"/>
+                       <Input id="duration" editable="false"/>
+                       <Label text="Unloading PersonTeam"/>
+                       <Input id="unloadingteam"/>
+                       <Label text="No. of Persons"/>
+                       <Input  id="noofpersons"/>
+                       <Label text="Unloading Remarks"/>
+                       <Input id="unloadingremarks"/>
+                    </VBox>
+                    </IconTabFilter>
+                    <!-- Status & Posting -->
+                    <IconTabFilter text="Status and Posting" key="Status" id="statusTab" icon="sap-icon://status-positive">
+                        <VBox class="sapUiSmallMargin">
+                             
+                            <VBox id="gateEntryBox" visible="true">
+                                
+                                <Label text="Gate Entry Date" />
+                                <DatePicker value="{/GateEntryDate}" id="gateentrydate"/>
+
+                                <Label text="Gate Entry Time" />
+                                <TimePicker value="{/GateEntryTime}" id="gateentrytime"/>
+
+                                <RadioButtonGroup id="gateentryradio" select="onRadioSelect">
+                                    <buttons>
+                                        <RadioButton text="Capture Gate Entry Date and Time" selected="false"/>
+                                    </buttons>
+                                </RadioButtonGroup>
+                            </VBox>
+
+                            <VBox id="gateExitBox" visible="true">
+                                <Label text="Gate Exit Time" />
+                                <TimePicker value="{/GateExitTime}" id="gateexittime" />
+
+                                <Label text="Gate Exit Date" />
+                                <DatePicker value="{/GateExitDate}" id="gateexitdate"/>
+
+                                  <RadioButtonGroup id="gateexitradio" select="onRadioSelect1">
+                                    <buttons>
+                                        <RadioButton text="Capture Gate Exit Date and Time" selected="false"/>
+                                    </buttons>
+                                </RadioButtonGroup>
+                            </VBox>
+
+                            <VBox id="grdocument" visible="true">
+                            <Label text="GR Document No." required="true"/>
+                            <Input value="{/GRDocNo}" />
+                            </VBox>
+
+                        </VBox>
+                        <!-- <Button text="Start Gate Entry" id="startgateentry" press="onstartgateentry" type="Emphasized" visible="false"></Button>
+                        <Button text="Exit Gate Entry"  id="exitgateentry" press="ongateexit" type="Emphasized" visible="false"></Button> -->
+                    </IconTabFilter>
+                    
+                </items>
+            </IconTabBar>
+        </content>
+
+        <footer>
+            <Toolbar>
+                <ToolbarSpacer />
+                <Button text="Save" type="Emphasized" press="onSave" />
+            </Toolbar>
+        </footer>
+
+    <VBox class="sapUiSizeCompact sapUiSmallMargin">
+
+        <!-- Document Type Selector -->
+        <HBox class="sapUiSmallMarginBottom" alignItems="Center">
+            <Label text="Document Type" width="150px"/>
+            <Select id="docTypeSelect" change=".onDocTypeChange">
+                <items>
+                    <core:Item key="PO" text="Purchase Order"/>
+                    <core:Item key="INB" text="Inbound Delivery"/>
+                    <core:Item key="ME" text="Manual Entry"></core:Item>
+                </items>
+            </Select>
+        </HBox>
+
+        <!-- Purchase Order Section -->
+<Panel
+    id="poSection"
+    headerText="Purchase Order Details"
+    visible="true"
+    expanded="true"
+    expandable="true">
+
+    <!-- Form only for PO input -->
+    <layout:SimpleForm
+        id="poForm"
+        editable="true"
+        width="75%"
+        layout="ResponsiveGridLayout"
+        labelSpanM="3"
+        labelSpanL="3"
+        columnsM="2">
+        <HBox alignItems="Center">
+        <Label text="Purchasing Document" class="sapUiSmallMarginEnd"/>
+       
+        <Input id="poNumber" submit=".onCheckPO" placeholder="Enter PO Number"/>
+        <Button text="CheckPO" press="checkPO"></Button>
+        </HBox>
+    </layout:SimpleForm>
+
+    <!-- Table separately below -->
+    <Table id="polineTable"
+       inset="false"
+       items="{/POs}"
+       mode="MultiSelect"
+    >
+
+    <columns>
+        <Column>
+            <header>
+                <Label text="PO Number" wrapping="false" />
+            </header>
+        </Column>
+   
+         <Column>
+            <header>
+                <Label text="Line Item" wrapping="false" />
+            </header>
+        </Column>
+
+        <Column>
+            <header>
+                <Label text="Material" wrapping="false" />
+            </header>
+        </Column>
+
+        <Column>
+            <header>
+                <Label text="Description" wrapping="false"/>
+            </header>
+        </Column>
+
+        <Column hAlign="End">
+            <header>
+                <Label text="PO Qty" wrapping="false"/>
+            </header>
+        </Column>
+
+        <Column hAlign="End">
+            <header>
+                <Label text="GRN Qty" wrapping="false"/>
+            </header>
+        </Column>
+
+        <Column hAlign="End">
+            <header>
+                <Label text="Received Qty" wrapping="false" required="true"/>
+            </header>
+        </Column>
+
+        <Column hAlign="End">
+            <header>
+                <Label text="Remaining Qty" wrapping="false" />
+            </header>
+        </Column>
+
+        <Column>
+            <header>
+                <Label text="Plant" wrapping="false"/>
+            </header>
+        </Column>
+
+        <Column>
+            <header>
+                <Label text="Storage Location" wrapping="false" required="true"/>
+            </header>
+        </Column>
+
+        <Column>
+            <header>
+                <Label text="Weight Unit" wrapping="false"/>
+            </header>
+        </Column>
+
+         <Column hAlign="End">
+            <header>
+                <Label text="Gross Weight" wrapping="false"/>
+            </header>
+        </Column>
+
+        <Column hAlign="End">
+            <header>
+                <Label text="Net Weight" wrapping="false"/>
+            </header>
+        </Column>
+
+        
+    </columns>
+
+    <items >
+        <ColumnListItem>
+            <cells>
+                <Text text="{PONumber}"/>
+                <Text text="{LineItem}"/>
+                <Text text="{Material}"/>
+                <Text text="{Description}"/>
+                <Text text="{POQty}"/>
+                <Text text="{GRNQty}"/>
+                <Input liveChange="onporeceived" ></Input>
+                <Text text="{Remaining}"/>
+                <Text text="{Plant}"/>
+                <Text text="{StorageLoc}"/>
+                <Text text="{WeightUnit}"/>
+                <Text text="{NetWeight}"/>
+                <Text text="{GrossWeight}"/>
+                
+            </cells>
+        </ColumnListItem>
+    </items>
+
+</Table>
+
+
+</Panel>
+
+
+<!-- Inbound Delivery Section -->
+<Panel id="inbSection" headerText="Inbound Delivery Details" visible="false">
+    <layout:SimpleForm
+        id="inbForm"
+        width="75%"
+        editable="true"
+        layout="ResponsiveGridLayout"
+        labelSpanM="3"
+        labelSpanL="3"
+        columnsM="2">
+        
+
+        <Label text="Delivery Document"/>
+        <HBox>
+        <Input id="inbNumber" submit=".onCheckInbound" placeholder="Enter Delivery Number"/>
+        <Button id="checkinbNum" press="checkInbound" text="CheckInboundDelivery"/>
+        </HBox>
+
+
+    </layout:SimpleForm>
+    
+        <Table id="inboundDetailsTable" growing="true" items="{/InboundItems}" width="100%" mode="MultiSelect">
+        <columns>
+        <Column><Label text="Delivery Number" wrapping="false"/></Column>
+      
+        <Column><Label text="Line Item" wrapping="false"/></Column>
+        <Column><Label text="Material" wrapping="false"/></Column>
+        <Column><Label text="Item Description" wrapping="false"/></Column>
+        <Column
+   minScreenWidth="Tablet"
+   demandPopin="true"
+   hAlign="End"
+   width="10rem">
+   <Label text="Delivery Quantity"/>
+</Column>
+        <Column hAlign="End"><Label text="GR Qty" wrapping="false"/></Column>
+        <Column hAlign="End"><Label text="Received Qty" wrapping="false" required="true"/></Column>
+        <Column hAlign="End"><Label text="Remaining Qty" wrapping="false"/></Column>
+        
+        <Column hAlign="End"><Label text="Plant" wrapping="false"/></Column>
+        <Column><Label text="Storage Location" wrapping="false" required="true"/></Column> 
+        <Column><Label text="Weight Unit" wrapping="false"/></Column>
+        <Column hAlign="End"><Label text="Gross Weight" wrapping="false"/></Column>
+        <Column hAlign="End"><Label text="Net Weight" wrapping="false"/></Column>
+        </columns>
+
+    <items>
+        <ColumnListItem>
+            <cells>
+                <Text text="{indeliverynumber}"/>
+                <Text text="{inbLineItem}"/>
+                <!-- <Text text="{inbDocDate}"/>
+                <Text text="{inbCreatedBy}"/> -->
+                <Text text="{inbMaterial}"/>
+                <Text text="{inbMaterialDesc}"/>
+                <Text text="{inbDeliveryQty}"/>
+                <Text text="{inbGRQty}"></Text>
+                <Input liveChange="oninboundreceived"></Input>
+                <Text text="{inbRemainingQty}"></Text>
+                <Text text="{inbPlant}"/>
+                <Text text="{inbStorageLoc}"/>
+                <Text text="{inbWeightUnit}"/>
+                <Text text="{inbGrossWeight}"/>
+                <Text text="{inbNetWeight}"/>
+                
+            </cells>
+        </ColumnListItem>
+    </items>
+</Table>
+</Panel>
+
+<!--Manual Entry-->
+<Panel id="manualentry" headerText="Manual Entry" visible="false">
+    <layout:SimpleForm
+        id="maualForm"
+        width="75%"
+        editable="true"
+        layout="ResponsiveGridLayout"
+        labelSpanM="3"
+        labelSpanL="3"
+        columnsM="2">   
+    </layout:SimpleForm>
+    <Table id="manualTable" growing="true" width="100%" mode="MultiSelect" items="{manualModel>/ManualItems}">
+    <columns>
+        <Column><Label text="Line Item"/></Column>
+        <Column><Label text="Material" required="true"/></Column>
+        <Column><Label text="Material Description" required="true"/></Column>
+        <Column hAlign="End"><Label text="Quantity" required="true"/></Column>
+        <Column><Label text="Plant" required="true"/></Column>
+        <Column><Label text="Storage Location" required="true"/></Column>
+        <Column><Label text="Weight Unit"/></Column>
+        <Column hAlign="End"><Label text="Gross Weight"/></Column>
+        <Column hAlign="End"><Label text="Net Weight"/></Column>
+    </columns>
+
+    <items>
+        <ColumnListItem>
+            <cells>
+                 <Input value="{manualModel>LineItem}"/>
+                <Input value="{manualModel>Material}"/>
+                <Input value="{manualModel>Description}"/>
+                <Input value="{manualModel>Quantity}"/>
+                <Input value="{manualModel>Plant}"/>
+                <Input value="{manualModel>StorageLoc}"/>
+                <Input value="{manualModel>WeightUnit}"/>
+                <Input value="{manualModel>GrossWeight}"/>
+                <Input value="{manualModel>NetWeight}"/>
+            </cells>
+        </ColumnListItem>
+    </items>
+</Table>
+<Button text="Add Row" press=".onAddManualRow" />
+
+
+</Panel>
+
+
+ </VBox>
+
+        <!-- Dynamic Bottom Section -->
+        <VBox id="docSection"></VBox>
+
+        <!-- Action Buttons -->
+        <Toolbar>
+            <Button text="Create Gate Entry" press="onCreateGateEntry" id="gateentry" visible="false"/>
+            <Button text="Post GR" press="onPostGR" id="postgr" visible="false"/>
+            <Button text="Gate Exit" id="gateexit" visible="false" press="onGateExit"></Button>
+        </Toolbar>
+    <!-- </content> -->
+    
+</Page>
+</mvc:View>
